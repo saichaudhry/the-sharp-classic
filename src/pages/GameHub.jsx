@@ -202,7 +202,7 @@ export default function GameHub() {
 
       {!event && (
         <p className="muted small notice">
-          ESPN's game page didn't load, so you're seeing each team's season data.
+          ESPN game page unavailable. Showing season data.
         </p>
       )}
 

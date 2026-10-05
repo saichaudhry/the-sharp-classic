@@ -14,7 +14,7 @@ export default function ProfitChart({ picks }) {
     .sort((a, b) => new Date(a.settled_at) - new Date(b.settled_at));
 
   if (settled.length < 2) {
-    return <div className="chart-empty muted small">Your profit line shows up after two settled picks.</div>;
+    return <div className="chart-empty muted small">Shows after 2 settled picks.</div>;
   }
 
   let running = 0;

@@ -28,8 +28,7 @@ export default function Onboarding({ onReady }) {
         <LouAvatar mood="neutral" size={112} />
         <h1>The Sharp</h1>
         <p className="lede">
-          Lou Marchetti set Vegas lines for thirty years. Now he runs the advice desk.
-          You get <strong>$1,000 in play money</strong>. He remembers every pick you make.
+          <strong>$1,000 in play money.</strong> Lou, a retired Vegas oddsmaker, remembers every pick.
         </p>
         <form onSubmit={submit} className="onboard-form">
           <label htmlFor="name">What should Lou call you?</label>
@@ -49,7 +48,7 @@ export default function Onboarding({ onReady }) {
           </div>
           {error && <p className="form-error" role="alert">{error}</p>}
         </form>
-        <p className="fine">Play money only, not real gambling. Your progress is saved to this browser.</p>
+        <p className="fine">Play money only.</p>
       </div>
     </div>
   );

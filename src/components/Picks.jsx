@@ -29,7 +29,7 @@ export default function Picks({ picks }) {
 
       {shown.length === 0 ? (
         <div className="empty">
-          <p>{picks.length ? 'Nothing here.' : 'No picks yet. Lou is waiting.'}</p>
+          <p>{picks.length ? 'Nothing here.' : 'No picks yet.'}</p>
         </div>
       ) : (
         <ul className="pick-list">

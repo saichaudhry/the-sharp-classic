@@ -84,8 +84,7 @@ export default function Board() {
 
       {state.status === 'ready' && state.games.length === 0 && (
         <div className="empty">
-          <p>No upcoming {SPORTS.find((s) => s.id === sport).label} games on the board right now.</p>
-          <p className="muted">Off-season, or everything already kicked off. Try another sport.</p>
+          <p>No {SPORTS.find((s) => s.id === sport).label} games this week.</p>
         </div>
       )}
 
@@ -110,7 +109,7 @@ export default function Board() {
                 </button>
               ))}
               <Link className="game-link" to={`/game/${sport}/${encodeURIComponent(g.id)}`}>
-                Matchup hub: stats, injuries, form <span aria-hidden="true">›</span>
+                Matchup <span aria-hidden="true">›</span>
               </Link>
             </article>
           ))}

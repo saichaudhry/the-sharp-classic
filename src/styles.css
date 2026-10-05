@@ -703,3 +703,8 @@ a.hero-team:hover { background: rgba(255, 255, 255, 0.04); }
 .day-group + .day-group { margin-top: 18px; }
 .day-head { font-size: 20px; margin: 0 0 8px; display: flex; gap: 8px; align-items: baseline; }
 .tag { color: var(--green); border-color: var(--green-dim); }
+
+/* GitHub link */
+.gh-icon { display: grid; place-items: center; color: var(--muted); }
+.gh-icon:hover, .disclaimer a:hover { color: var(--green); }
+.disclaimer a { color: var(--muted); }

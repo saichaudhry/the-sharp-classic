@@ -3,12 +3,7 @@ import { api } from '../api.js';
 import LouAvatar, { moodFor } from './LouAvatar.jsx';
 
 const MAX_CHARS = 500; // matches api/chat.js
-const QUICK_PROMPTS = [
-  'Roast my record.',
-  'Who should I take this week?',
-  'Explain what +150 means.',
-  'Grade my last pick.',
-];
+const QUICK_PROMPTS = ['Roast my record.', 'Best bet this week?', 'Grade my last pick.'];
 
 export default function Sharp({ stats, picks, draft, onDraftUsed }) {
   const [messages, setMessages] = useState(null); // null = loading history
@@ -78,8 +73,7 @@ export default function Sharp({ stats, picks, draft, onDraftUsed }) {
         {messages === null && <div className="spinner small" />}
         {messages?.length === 0 && (
           <div className="bubble assistant">
-            Sit down, kid. You've got a thousand in play money and no track record. Pick a game off
-            the board, or ask me something. I'll remember either way.
+            Sit down, kid. I remember every bet you make.
           </div>
         )}
         {messages?.map((m, i) => (
