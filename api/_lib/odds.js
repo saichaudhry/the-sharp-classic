@@ -155,10 +155,25 @@ export async function findGame(sport, eventId) {
   return games.find((g) => g.id === eventId) || null;
 }
 
-// How a market settled: 'yes', 'no', 'void', or null if it isn't final yet.
-export async function marketResult(ticker) {
-  const { market } = await kalshi(`/markets/${encodeURIComponent(ticker)}`);
-  if (!['finalized', 'settled'].includes(market?.status)) return null;
+// The Kalshi market a pick bought. A pick stores the event ticker and the full
+// team name, and each event has exactly two markets, so: take the market whose
+// name matches the team; if neither matches cleanly ("Chicago WS" vs "Chicago
+// White Sox"), take the one that does NOT match the opponent.
+export async function marketFor(pick) {
+  const data = await kalshi(`/events/${encodeURIComponent(pick.event_id)}?with_nested_markets=true`);
+  const markets = data.event?.markets || []; // nested markets live under event, not the top-level list
+  if (markets.length !== 2) return null;
+  const opponent = pick.team === pick.home_team ? pick.away_team : pick.home_team;
+  const score = (m, name) => matchScore({ abbr: m.ticker.split('-').pop(), name: m.yes_sub_title }, { name, short: '', location: name.split(' ')[0], abbr: '' });
+  const direct = markets.filter((m) => score(m, pick.team) >= 2);
+  if (direct.length === 1) return direct[0];
+  const notOpponent = markets.filter((m) => score(m, opponent) < 2);
+  return notOpponent.length === 1 ? notOpponent[0] : null;
+}
+
+// How a pick's market settled: 'yes', 'no', 'void', or null if it isn't final yet.
+export function resultOf(market) {
+  if (!market || !['finalized', 'settled'].includes(market.status)) return null;
   if (market.result === 'yes' || market.result === 'no') return market.result;
   return 'void';
 }

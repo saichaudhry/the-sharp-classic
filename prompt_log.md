@@ -73,6 +73,12 @@ Claude found my Kalshi key at `~/.kalshi/kalshi_key.pem` but chose not to use it
 - settlement now reads each pick's Kalshi market result (`yes` / `no`), stored in a new `market_ticker` column
 - removed the Odds API key and the fake demo games
 
+**Prompt 10** (in the main repo, later the same day):
+```
+okay lets sepreate the project keep this version but recreate the version from before,
+```
+I chose (in Claude's form) the version from before the redesign, as a new folder and repo. Claude copied the repo, rolled it back to commit `ce1f69c`, and carried over the tested settlement fix from the later version (the original here relied on a `market_ticker` column that was never added, so picks would never have settled). Settlement re-tested on the finished Lions @ Panthers game.
+
 ## Session 3: TODO date, setup and deploy
 
 TODO: Supabase setup, env vars, first deploy, any errors hit and the prompts you used to fix them (verbatim).

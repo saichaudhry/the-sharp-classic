@@ -40,10 +40,6 @@ create table if not exists messages (
 );
 create index if not exists messages_player_idx on messages (player_id, created_at desc);
 
--- Which Kalshi market a pick bought (e.g. KXNFLGAME-26OCT05ATLNO-NO).
--- Settlement reads that market's official result.
-alter table picks add column if not exists market_ticker text;
-
 alter table players   enable row level security;
 alter table picks     enable row level security;
 alter table messages  enable row level security;

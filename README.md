@@ -1,4 +1,6 @@
-# The Sharp
+# The Sharp (Classic)
+
+> This is the earlier version of [The Sharp](https://github.com/saichaudhry/the-sharp), kept as its own project: one AI character (Lou), the green design, Kalshi prices and the ESPN game/team hubs. The main repo has the later redesign with four characters and the My Picks page.
 
 > TODO (write in your own words): one or two sentences on what this is.
 > e.g. a play-money sports picks game where an AI oddsmaker named Lou remembers every pick you make and roasts you for it.
@@ -74,7 +76,7 @@ TODO: list the specific changes you made by hand (file + what + why).
 3. `cp .env.example .env.local` and fill in:
    - `ANTHROPIC_API_KEY`
    - `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API)
-4. `npm run dev` → http://localhost:5180
+4. `npm run dev` → http://localhost:5181
 
 `npm run dev` serves both the React app and the `/api` functions. A small plugin in `vite.config.js` runs the files in `/api` the same way Vercel does, so no Vercel CLI is needed locally.
 

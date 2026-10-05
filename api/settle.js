@@ -1,13 +1,13 @@
 // POST /api/settle -> grade this player's finished games and pay out.
 // The frontend calls this on page load, so results show up next visit.
-// Results come from Kalshi: each pick remembers the market it bought, and a
-// finalized market's result is "yes" (that team won) or "no".
+// Results come from Kalshi: we look up the market for the team the player
+// took, and a finalized market's result is "yes" (that team won) or "no".
 import { db, handle, unwrap } from './_lib/db.js';
 import { requirePlayer, round2, STARTING_BANKROLL } from './_lib/player.js';
-import { marketResult } from './_lib/odds.js';
+import { marketFor, resultOf } from './_lib/odds.js';
 import { loadProfile } from './me.js';
 
-const REFUND_AFTER_DAYS = 4; // never got a result (cancelled game, missing ticker): give the stake back
+const REFUND_AFTER_DAYS = 4; // never got a result (cancelled game): give the stake back
 
 // Profit on a winning bet at American odds.
 export function profitOn(stake, price) {
@@ -35,15 +35,12 @@ export default handle({
     );
 
     for (const pick of pending) {
-      let result = null;
-      if (pick.market_ticker) {
-        // If Kalshi is down, skip this pick for now. It stays open until the next visit.
-        result = await marketResult(pick.market_ticker).catch((err) => {
-          console.error(`[settle] ${pick.market_ticker}:`, err.message);
-          return null;
-        });
-      }
-      let outcome = grade(pick, result);
+      // If Kalshi is down, skip this pick for now. It stays open until the next visit.
+      const market = await marketFor(pick).catch((err) => {
+        console.error(`[settle] ${pick.event_id}:`, err.message);
+        return null;
+      });
+      let outcome = grade(pick, resultOf(market));
 
       const ageDays = (Date.now() - new Date(pick.commence_time)) / 86_400_000;
       if (!outcome && ageDays > REFUND_AFTER_DAYS) outcome = { status: 'push', payout: Number(pick.stake) };

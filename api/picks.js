@@ -24,18 +24,13 @@ export default handle({
     if (!game) throw new HttpError(409, 'That game is no longer on the board (it may have started).');
     if (team !== game.home && team !== game.away) throw new HttpError(400, 'Pick one of the two teams.');
 
-    const { data: pick, error } = await db().rpc('place_pick', {
+    const { error } = await db().rpc('place_pick', {
       p_player: player.id, p_event: game.id, p_sport: sport,
       p_home: game.home, p_away: game.away, p_commence: game.commence,
       p_team: team, p_price: game.prices[team], p_stake: stake,
     });
     if (error?.message?.includes('INSUFFICIENT_FUNDS')) throw new HttpError(400, "You don't have that much.");
     if (error) throw error;
-
-    // Remember the exact Kalshi market, so settlement can read its official result.
-    const { error: tickerError } = await db().from('picks')
-      .update({ market_ticker: game.markets[team] }).eq('id', pick.id);
-    if (tickerError) console.error('[picks] could not save market_ticker (run the ALTER in schema.sql):', tickerError.message);
 
     return loadProfile(await requirePlayer(req));
   },
